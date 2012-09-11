@@ -38,7 +38,7 @@ public class Jdk7Tests {
     /**
      * Should fail when ran with JDK 1.6
      */
-//    @Test
+    @Test
     public void demoFailsWithNoAssumptionThisShouldFail() {
         String javaVersion = System.getProperty("java.version");
         Assert.assertTrue(javaVersion.startsWith("1.7."));
