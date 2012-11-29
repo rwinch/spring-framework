@@ -18,6 +18,12 @@ package org.springframework.scripting.jruby;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
+import javax.management.MBeanServer;
+import javax.management.MBeanServerFactory;
+
+import org.junit.After;
 import org.junit.Test;
 import org.springframework.aop.framework.Advised;
 import org.springframework.aop.support.AopUtils;
@@ -31,16 +37,29 @@ import test.advice.CountingBeforeAdvice;
  * @author Chris Beams
  */
 public final class AdvisedJRubyScriptFactoryTests {
-	
+
 	private static final Class<?> CLASS = AdvisedJRubyScriptFactoryTests.class;
 	private static final String CLASSNAME = CLASS.getSimpleName();
-	
+
 	private static final String FACTORYBEAN_CONTEXT = CLASSNAME + "-factoryBean.xml";
 	private static final String APC_CONTEXT = CLASSNAME + "-beanNameAutoProxyCreator.xml";
 
+	private ClassPathXmlApplicationContext ctx;
+
+	@After
+	public void clean() {
+		ctx.close();
+
+		// Work Around for SPR-10060
+		List<MBeanServer> servers = MBeanServerFactory.findMBeanServer(null);
+		for(MBeanServer server : servers) {
+			MBeanServerFactory.releaseMBeanServer(server);
+		}
+	}
+
 	@Test
 	public void testAdviseWithProxyFactoryBean() {
-		ClassPathXmlApplicationContext ctx =
+		ctx =
 			new ClassPathXmlApplicationContext(FACTORYBEAN_CONTEXT, CLASS);
 
 		Messenger bean = (Messenger) ctx.getBean("messenger");
@@ -55,7 +74,7 @@ public final class AdvisedJRubyScriptFactoryTests {
 
 	@Test
 	public void testAdviseWithBeanNameAutoProxyCreator() {
-		ClassPathXmlApplicationContext ctx =
+		ctx =
 			new ClassPathXmlApplicationContext(APC_CONTEXT, CLASS);
 
 		Messenger bean = (Messenger) ctx.getBean("messenger");
