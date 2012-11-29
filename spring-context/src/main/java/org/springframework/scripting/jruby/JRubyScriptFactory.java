@@ -18,11 +18,13 @@ package org.springframework.scripting.jruby;
 
 import java.io.IOException;
 
+import org.jruby.Ruby;
 import org.jruby.RubyException;
 import org.jruby.exceptions.JumpException;
 import org.jruby.exceptions.RaiseException;
 
 import org.springframework.beans.factory.BeanClassLoaderAware;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.scripting.ScriptCompilationException;
 import org.springframework.scripting.ScriptFactory;
 import org.springframework.scripting.ScriptSource;
@@ -43,11 +45,13 @@ import org.springframework.util.ClassUtils;
  * @see JRubyScriptUtils
  * @see org.springframework.scripting.support.ScriptFactoryPostProcessor
  */
-public class JRubyScriptFactory implements ScriptFactory, BeanClassLoaderAware {
+public class JRubyScriptFactory implements ScriptFactory, BeanClassLoaderAware, DisposableBean {
 
 	private final String scriptSourceLocator;
 
 	private final Class[] scriptInterfaces;
+
+	private Ruby ruby;
 
 	private ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
 
@@ -93,8 +97,9 @@ public class JRubyScriptFactory implements ScriptFactory, BeanClassLoaderAware {
 	 */
 	public Object getScriptedObject(ScriptSource scriptSource, Class[] actualInterfaces)
 			throws IOException, ScriptCompilationException {
+		ruby = JRubyScriptUtils.initializeRuntime();
 		try {
-			return JRubyScriptUtils.createJRubyObject(
+			return JRubyScriptUtils.createJRubyObject(ruby,
 					scriptSource.getScriptAsString(), actualInterfaces, this.beanClassLoader);
 		}
 		catch (RaiseException ex) {
@@ -122,6 +127,11 @@ public class JRubyScriptFactory implements ScriptFactory, BeanClassLoaderAware {
 	@Override
 	public String toString() {
 		return "JRubyScriptFactory: script source locator [" + this.scriptSourceLocator + "]";
+	}
+
+
+	public void destroy() throws Exception {
+		ruby.tearDown();
 	}
 
 }

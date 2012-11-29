@@ -19,6 +19,11 @@ package org.springframework.scripting.jruby;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
+
+import javax.management.MBeanServer;
+import javax.management.MBeanServerFactory;
+
 import org.junit.After;
 import org.junit.Test;
 import org.springframework.aop.framework.Advised;
@@ -44,6 +49,18 @@ public final class AdvisedJRubyScriptFactoryTests {
 	@After
 	public void resetMBeanServers() throws Exception {
 		MBeanTestUtils.resetMBeanServers();
+	}
+
+	@Test
+	public void Spr10060() {
+		ClassPathXmlApplicationContext ctx =
+				new ClassPathXmlApplicationContext(FACTORYBEAN_CONTEXT, CLASS);
+		ctx.close();
+
+		List<MBeanServer> servers = MBeanServerFactory.findMBeanServer(null);
+//		System.out.println(servers.get(0).getMBeanCount());
+		assertEquals(0,servers.size());
+
 	}
 
 	@Test

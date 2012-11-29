@@ -63,8 +63,8 @@ public abstract class JRubyScriptUtils {
 	 * @throws JumpException in case of JRuby parsing failure
 	 * @see ClassUtils#getDefaultClassLoader()
 	 */
-	public static Object createJRubyObject(String scriptSource, Class[] interfaces) throws JumpException {
-		return createJRubyObject(scriptSource, interfaces, ClassUtils.getDefaultClassLoader());
+	public static Object createJRubyObject(Ruby ruby, String scriptSource, Class[] interfaces) throws JumpException {
+		return createJRubyObject(ruby, scriptSource, interfaces, ClassUtils.getDefaultClassLoader());
 	}
 
 	/**
@@ -75,9 +75,7 @@ public abstract class JRubyScriptUtils {
 	 * @return the scripted Java object
 	 * @throws JumpException in case of JRuby parsing failure
 	 */
-	public static Object createJRubyObject(String scriptSource, Class[] interfaces, ClassLoader classLoader) {
-		Ruby ruby = initializeRuntime();
-
+	public static Object createJRubyObject(Ruby ruby, String scriptSource, Class[] interfaces, ClassLoader classLoader) {
 		Node scriptRootNode = ruby.parseEval(scriptSource, "", null, 0);
 		// keep using the deprecated runNormally variant for JRuby 1.1/1.2 compatibility...
 		IRubyObject rubyObject = ruby.runNormally(scriptRootNode, false);
@@ -97,7 +95,7 @@ public abstract class JRubyScriptUtils {
 	/**
 	 * Initializes an instance of the {@link org.jruby.Ruby} runtime.
 	 */
-	private static Ruby initializeRuntime() {
+	static Ruby initializeRuntime() {
 		return JavaEmbedUtils.initialize(Collections.EMPTY_LIST);
 	}
 
