@@ -101,6 +101,11 @@ configure(allprojects) {
 	] as String[]
 }
 
+configure(allprojects) {
+    def splitFound = new org.springframework.build.gradle.SplitPackageDetector('.', logger).diagnoseSplitPackages();
+    assert !splitFound // see error log messages for details of split packages
+}
+
 configure(allprojects.findAll{it.name in ["spring", "spring-jms", "spring-orm",
 		"spring-orm-hibernate4", "spring-oxm", "spring-struts", "spring-test",
 		"spring-test-mvc", "spring-tx", "spring-web", "spring-webmvc",
