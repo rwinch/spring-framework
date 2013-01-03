@@ -18,6 +18,12 @@ package org.springframework.build.gradle
 
 class SplitPackageDetector {
 
+    private static final String HIDDEN_DIRECTORY_PREFIX = "."
+
+    private static final String JAVA_FILE_SUFFIX = ".java"
+
+    private static final String SRC_MAIN_JAVA = "src" + File.separator + "main" + File.separator + "java"
+
     private final Map<File, Set<String>> pkgMap = [:]
 
     private final logger
@@ -37,12 +43,12 @@ class SplitPackageDetector {
     }
 
     private File[] dirList(File dir) {
-        dir.listFiles({ file -> file.isDirectory() && !file.getName().startsWith(".") } as FileFilter)
+        dir.listFiles({ file -> file.isDirectory() && !file.getName().startsWith(HIDDEN_DIRECTORY_PREFIX) } as FileFilter)
     }
 
     private Set<String> getPackagesInDirectory(File dir) {
         def pkgs = new HashSet<String>()
-        addPackagesInDirectory(pkgs, new File(dir, "src/main/java"), "")
+        addPackagesInDirectory(pkgs, new File(dir, SRC_MAIN_JAVA), "")
         return pkgs;
     }
 
@@ -68,7 +74,7 @@ class SplitPackageDetector {
 
     private void addPackagesInDirectory(HashSet<String> packages, File dir, String pkg) {
         def scanDir = new File(dir, pkg)
-        def File[] javaFiles = scanDir.listFiles({ file -> !file.isDirectory() && file.getName().endsWith(".java") } as FileFilter)
+        def File[] javaFiles = scanDir.listFiles({ file -> !file.isDirectory() && file.getName().endsWith(JAVA_FILE_SUFFIX) } as FileFilter)
         if (javaFiles != null && javaFiles.length != 0) {
             packages.add(pkg)
         }
