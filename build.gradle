@@ -8,6 +8,11 @@ buildscript {
 	}
 }
 
+configure(rootProject) {
+    def splitFound = new org.springframework.build.gradle.SplitPackageDetector('.', logger).diagnoseSplitPackages();
+    assert !splitFound // see error log messages for details of split packages
+}
+
 configure(allprojects) {
 	ext.aspectjVersion  = "1.7.1"
 	ext.easymockVersion = "2.5.2"
@@ -99,11 +104,6 @@ configure(allprojects) {
 		"http://tiles.apache.org/framework/apidocs",
 		"http://commons.apache.org/dbcp/api-1.2.2",
 	] as String[]
-}
-
-configure(allprojects) {
-    def splitFound = new org.springframework.build.gradle.SplitPackageDetector('.', logger).diagnoseSplitPackages();
-    assert !splitFound // see error log messages for details of split packages
 }
 
 configure(allprojects.findAll{it.name in ["spring", "spring-jms", "spring-orm",
@@ -971,4 +971,5 @@ configure(rootProject) {
 				"set GRADLE_OPTS=$gradleBatOpts %GRADLE_OPTS%\nset DEFAULT_JVM_OPTS=")
 		}
 	}
+
 }
