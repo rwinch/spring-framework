@@ -23,6 +23,7 @@ buildSrc/build
 /spring-*/build
 
 # IDEA artifacts and output dirs
+.idea
 *.iml
 *.ipr
 *.iws
