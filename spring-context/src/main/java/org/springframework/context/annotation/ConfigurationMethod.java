@@ -52,6 +52,16 @@ abstract class ConfigurationMethod {
 	}
 
 	@Override
+	public int hashCode() {
+		return toString().hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return obj != null && getClass().equals(obj.getClass()) && toString().equals(obj.toString());
+	}
+
+	@Override
 	public String toString() {
 		return String.format("[%s:name=%s,declaringClass=%s]",
 				this.getClass().getSimpleName(), this.getMetadata().getMethodName(), this.getMetadata().getDeclaringClassName());

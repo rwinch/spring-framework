@@ -24,8 +24,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Stack;
 
@@ -89,8 +91,8 @@ class ConfigurationClassParser {
 
 	private final Set<String> knownSuperclasses = new LinkedHashSet<String>();
 
-	private final Set<ConfigurationClass> configurationClasses =
-		new LinkedHashSet<ConfigurationClass>();
+	private final Map<ConfigurationClass,ConfigurationClass> configurationClasses =
+		new LinkedHashMap<ConfigurationClass,ConfigurationClass>();
 
 	private final Stack<PropertySource<?>> propertySources =
 		new Stack<PropertySource<?>>();
@@ -157,13 +159,24 @@ class ConfigurationClassParser {
 		}
 		while (metadata != null);
 
-		if (this.configurationClasses.contains(configClass) && configClass.getBeanName() != null) {
+		if (getConfigurationClasses().contains(configClass) && configClass.getBeanName() != null) {
 			// Explicit bean definition found, probably replacing an import.
 			// Let's remove the old one and go with the new one.
-			this.configurationClasses.remove(configClass);
+			ConfigurationClass originalConfigClass = removeConfigurationClass(configClass);
+
+			for(BeanMethod beanMethod : originalConfigClass.getBeanMethods()) {
+				if(!configClass.getBeanMethods().contains(beanMethod)) {
+					configClass.addBeanMethod(new BeanMethod(beanMethod.getMetadata(), configClass));
+				}
+			}
+			for(Entry<String, Class<? extends BeanDefinitionReader>> importedEntry : originalConfigClass.getImportedResources().entrySet()) {
+				if(!configClass.getImportedResources().containsKey(importedEntry.getKey())) {
+					configClass.addImportedResource(importedEntry.getKey(), importedEntry.getValue());
+				}
+			}
 		}
 
-		this.configurationClasses.add(configClass);
+		addConfigurationClass(configClass);
 	}
 
 	/**
@@ -249,6 +262,14 @@ class ConfigurationClassParser {
 
 		// no superclass, processing is complete
 		return null;
+	}
+
+	private void addConfigurationClass(ConfigurationClass configClass) {
+		this.configurationClasses.put(configClass,configClass);
+	}
+
+	private ConfigurationClass removeConfigurationClass(ConfigurationClass configClass) {
+		return this.configurationClasses.remove(configClass);
 	}
 
 	/**
@@ -441,13 +462,13 @@ class ConfigurationClassParser {
 	 * @see ConfigurationClass#validate
 	 */
 	public void validate() {
-		for (ConfigurationClass configClass : this.configurationClasses) {
+		for (ConfigurationClass configClass : getConfigurationClasses()) {
 			configClass.validate(this.problemReporter);
 		}
 	}
 
 	public Set<ConfigurationClass> getConfigurationClasses() {
-		return this.configurationClasses;
+		return this.configurationClasses.keySet();
 	}
 
 	public Stack<PropertySource<?>> getPropertySources() {
