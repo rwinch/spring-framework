@@ -27,6 +27,7 @@ import java.io.Serializable;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.junit.Assume;
 import org.junit.Test;
 import org.springframework.aop.ClassFilter;
 import org.springframework.aop.MethodMatcher;
@@ -41,6 +42,7 @@ import org.springframework.tests.aop.advice.CountingBeforeAdvice;
 import org.springframework.tests.aop.interceptor.NopInterceptor;
 import org.springframework.tests.sample.beans.ITestBean;
 import org.springframework.tests.sample.beans.TestBean;
+import org.springframework.util.ClassUtils;
 
 import test.mixin.LockMixinAdvisor;
 
@@ -137,6 +139,10 @@ public final class CglibProxyTests extends AbstractAopProxyTests implements Seri
 
 	@Test
 	public void testCglibProxyingGivesMeaningfulExceptionIfAskedToProxyNonvisibleClass() {
+
+		// Only execute if run without Objenesis on the classpath
+		Assume.assumeFalse(ClassUtils.isPresent(
+				"org.objenesis.instantiator.perc.PercInstantiator", null));
 
 		@SuppressWarnings("unused")
 		class YouCantSeeThis {

@@ -19,6 +19,7 @@ package org.springframework.aop.framework;
 import java.io.Serializable;
 
 import org.springframework.aop.SpringProxy;
+import org.springframework.util.ClassUtils;
 
 /**
  * Default {@link AopProxyFactory} implementation,
@@ -48,6 +49,11 @@ import org.springframework.aop.SpringProxy;
 @SuppressWarnings("serial")
 public class DefaultAopProxyFactory implements AopProxyFactory, Serializable {
 
+	// We need to explicitly check for a type present in Objenesis 1.3 to prevent
+	// test cases auto-activating Objenesis proxying as Mockito pulls in 1.0 and thus
+	// we'd never test raw CGLib proxies anymore
+	private static final boolean OBJENESIS_13_PRESENT = ClassUtils.isPresent("org.objenesis.instantiator.perc.PercInstantiator", null);
+
 	@Override
 	public AopProxy createAopProxy(AdvisedSupport config) throws AopConfigException {
 		if (config.isOptimize() || config.isProxyTargetClass() || hasNoUserSuppliedProxyInterfaces(config)) {
@@ -59,6 +65,10 @@ public class DefaultAopProxyFactory implements AopProxyFactory, Serializable {
 			if (targetClass.isInterface()) {
 				return new JdkDynamicAopProxy(config);
 			}
+			if (OBJENESIS_13_PRESENT) {
+				return ObjenesisProxyFactory.createObjenesisProxy(config);
+			}
+			
 			return CglibProxyFactory.createCglibProxy(config);
 		}
 		else {
@@ -87,5 +97,11 @@ public class DefaultAopProxyFactory implements AopProxyFactory, Serializable {
 			return new CglibAopProxy(advisedSupport);
 		}
 	}
-
+	
+	private static class ObjenesisProxyFactory {
+		
+		public static AopProxy createObjenesisProxy(AdvisedSupport advisedSupport) {
+			return new ObjenesisAopProxy(advisedSupport);
+		}
+	}
 }
