@@ -859,12 +859,27 @@ project("spring-aspects") {
 configure(rootProject) {
 	description = "Spring Framework"
 
+	apply plugin: 'sonar-runner'
 	apply plugin: "asciidoctor"
 	apply plugin: "docbook-reference"
 	apply plugin: "groovy"
 
 	// apply plugin: "detect-split-packages"
 	apply from: "${gradleScriptDir}/jdiff.gradle"
+
+	sonarRunner {
+		sonarProperties {
+			property "sonar.java.coveragePlugin", "jacoco"
+			property "sonar.projectName", "Spring Framework"
+			property "sonar.jacoco.reportPath", "${buildDir.name}/jacoco.exec"
+			property "sonar.links.homepage", 'https://spring.io/spring-framework'
+			property "sonar.links.ci", 'https://build.springsource.org/browse/SPR'
+			property "sonar.links.issue", 'https://jira.springsource.org/browse/SPR'
+			property "sonar.links.scm", 'https://github.com/spring-projects/spring-framework'
+			property "sonar.links.scm_dev", 'https://github.com/spring-projects/spring-framework.git'
+			property "sonar.java.coveragePlugin", "jacoco"
+		}
+	}
 
 	asciidoctor {
 		baseDir = project.file('src/asciidoc')
