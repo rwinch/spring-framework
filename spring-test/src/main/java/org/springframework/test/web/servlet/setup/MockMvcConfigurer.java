@@ -36,14 +36,14 @@ import org.springframework.web.context.WebApplicationContext;
  * @author Rossen Stoyanchev
  * @since 4.1
  */
-public interface MockMvcConfigurer {
+public interface MockMvcConfigurer<M extends MockMvcBuilder> {
 
 
 	/**
 	 * Invoked immediately after a {@code MockMvcConfigurer} is configured via
 	 * {@link AbstractMockMvcBuilder#add(MockMvcConfigurer)}.
 	 */
-	void afterConfigurerAdded(MockMvcBuilder mockMvcBuilder);
+	void afterConfigurerAdded(M mockMvcBuilder);
 
 	/**
 	 * Invoked just before the MockMvc instance is built providing access to the
@@ -51,7 +51,7 @@ public interface MockMvcConfigurer {
 	 * needed but was not configured and is {@code null}), it can still be added
 	 * via {@link AbstractMockMvcBuilder#defaultRequest}.
 	 */
-	void beforeMockMvcCreated(MockMvcBuilder mockMvcBuilder, RequestBuilder defaultRequestBuilder,
+	void beforeMockMvcCreated(M mockMvcBuilder, RequestBuilder defaultRequestBuilder,
 			WebApplicationContext applicationContext);
 
 }

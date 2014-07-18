@@ -23,6 +23,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import javax.servlet.Filter;
 import javax.servlet.ServletContext;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +51,7 @@ public abstract class AbstractMockMvcBuilder<B extends AbstractMockMvcBuilder<B>
 
 	private Boolean dispatchOptions = Boolean.FALSE;
 
-	private final List<MockMvcConfigurer> configurers = new ArrayList<MockMvcConfigurer>(4);
+	private final List<MockMvcConfigurer<B>> configurers = new ArrayList<MockMvcConfigurer<B>>(4);
 
 
 
@@ -183,8 +184,8 @@ public abstract class AbstractMockMvcBuilder<B extends AbstractMockMvcBuilder<B>
 	 * this MockMvcBuilder with some specific purpose in mind.
 	 */
 	@SuppressWarnings("unchecked")
-	public final <T extends B> T add(MockMvcConfigurer configurer) {
-		configurer.afterConfigurerAdded(this);
+	public final <T extends B> T add(MockMvcConfigurer<B> configurer) {
+		configurer.afterConfigurerAdded((B)this);
 		this.configurers.add(configurer);
 		return (T) this;
 	}
@@ -194,6 +195,7 @@ public abstract class AbstractMockMvcBuilder<B extends AbstractMockMvcBuilder<B>
 	 * Build a {@link org.springframework.test.web.servlet.MockMvc} instance.
 	 */
 	@Override
+	@SuppressWarnings("unchecked")
 	public final MockMvc build() {
 
 		WebApplicationContext wac = initWebAppContext();
@@ -201,8 +203,8 @@ public abstract class AbstractMockMvcBuilder<B extends AbstractMockMvcBuilder<B>
 		ServletContext servletContext = wac.getServletContext();
 		MockServletConfig mockServletConfig = new MockServletConfig(servletContext);
 
-		for (MockMvcConfigurer configurer : this.configurers) {
-			configurer.beforeMockMvcCreated(this, this.defaultRequestBuilder, wac);
+		for (MockMvcConfigurer<B> configurer : this.configurers) {
+			configurer.beforeMockMvcCreated((B)this, this.defaultRequestBuilder, wac);
 		}
 
 		Filter[] filterArray = this.filters.toArray(new Filter[this.filters.size()]);
