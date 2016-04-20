@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.springframework.test.web.servlet;
+package org.springframework.test.web;
 
 /**
  * Allows applying actions, such as expectations, on the result of an executed
@@ -27,7 +27,7 @@ package org.springframework.test.web.servlet;
  * @author Rossen Stoyanchev
  * @since 3.2
  */
-public interface ResultActions extends org.springframework.test.web.ResultActions<MvcResult> {
+public interface ResultActions<T extends HttpResult> {
 
 	/**
 	 * Perform an expectation.
@@ -50,7 +50,7 @@ public interface ResultActions extends org.springframework.test.web.ResultAction
 	 *   .andExpect(flash().attribute("message", "success!"));
 	 * </pre>
 	 */
-	ResultActions andExpect(ResultMatcher matcher) throws Exception;
+	ResultActions<T> andExpect(ResultMatcher<T> matcher) throws Exception;
 
 	/**
 	 * Perform a general action.
@@ -62,13 +62,13 @@ public interface ResultActions extends org.springframework.test.web.ResultAction
 	 * mockMvc.perform(get("/form")).andDo(print());
 	 * </pre>
 	 */
-	ResultActions andDo(ResultHandler handler) throws Exception;
+	ResultActions<T> andDo(ResultHandler<T> handler) throws Exception;
 
 	/**
 	 * Return the result of the executed request for direct access to the results.
 	 *
 	 * @return the result of the request
 	 */
-	MvcResult andReturn();
+	T andReturn();
 
 }

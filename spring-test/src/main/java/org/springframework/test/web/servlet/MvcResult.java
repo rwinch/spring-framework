@@ -16,8 +16,7 @@
 
 package org.springframework.test.web.servlet;
 
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.web.HttpResult;
 import org.springframework.web.servlet.FlashMap;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -29,19 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @author Rossen Stoyanchev
  * @since 3.2
  */
-public interface MvcResult {
-
-	/**
-	 * Return the performed request.
-	 * @return the request, never {@code null}
-	 */
-	MockHttpServletRequest getRequest();
-
-	/**
-	 * Return the resulting response.
-	 * @return the response, never {@code null}
-	 */
-	MockHttpServletResponse getResponse();
+public interface MvcResult extends HttpResult {
 
 	/**
 	 * Return the executed handler.

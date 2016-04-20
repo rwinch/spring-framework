@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2016 the original author or authors.
+ * Copyright 2002-2015 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.springframework.test.web.servlet;
+package org.springframework.test.web;
 
 /**
  * A {@code ResultHandler} performs a generic action on the result of an
@@ -44,6 +44,14 @@ package org.springframework.test.web.servlet;
  * @author Sam Brannen
  * @since 3.2
  */
-public interface ResultHandler extends  org.springframework.test.web.ResultHandler<MvcResult> {
+public interface ResultHandler<T extends HttpResult> {
+
+	/**
+	 * Perform an action on the given result.
+	 *
+	 * @param result the result of the executed request
+	 * @throws Exception if a failure occurs
+	 */
+	void handle(T result) throws Exception;
 
 }

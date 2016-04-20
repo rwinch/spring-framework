@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2016 the original author or authors.
+ * Copyright 2002-2015 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package org.springframework.test.web.servlet;
+package org.springframework.test.web;
 
 /**
- * A {@code ResultHandler} performs a generic action on the result of an
- * executed request &mdash; for example, printing debug information.
+ * A {@code ResultMatcher} matches the result of an executed request against
+ * some expectation.
  *
  * <p>See static factory methods in
- * {@link org.springframework.test.web.servlet.result.MockMvcResultHandlers
- * MockMvcResultHandlers}.
+ * {@link org.springframework.test.web.servlet.result.MockMvcResultMatchers
+ * MockMvcResultMatchers}.
  *
- * <h3>Example</h3>
+ * <h3>Example Using Status and Content Result Matchers</h3>
  *
  * <pre class="code">
  * import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
- * import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
+ * import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
  * import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
  *
  * // ...
@@ -37,13 +37,23 @@ package org.springframework.test.web.servlet;
  *
  * MockMvc mockMvc = webAppContextSetup(wac).build();
  *
- * mockMvc.perform(get("/form")).andDo(print());
+ * mockMvc.perform(get("/form"))
+ *   .andExpect(status().isOk())
+ *   .andExpect(content().mimeType(MediaType.APPLICATION_JSON));
  * </pre>
  *
  * @author Rossen Stoyanchev
  * @author Sam Brannen
  * @since 3.2
  */
-public interface ResultHandler extends  org.springframework.test.web.ResultHandler<MvcResult> {
+public interface ResultMatcher<T extends HttpResult> {
+
+	/**
+	 * Assert the result of an executed request.
+	 *
+	 * @param result the result of the executed request
+	 * @throws Exception if a failure occurs
+	 */
+	void match(T result) throws Exception;
 
 }

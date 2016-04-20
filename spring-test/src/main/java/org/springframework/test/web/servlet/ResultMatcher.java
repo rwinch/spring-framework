@@ -47,14 +47,6 @@ package org.springframework.test.web.servlet;
  * @since 3.2
  */
 @FunctionalInterface
-public interface ResultMatcher {
-
-	/**
-	 * Assert the result of an executed request.
-	 *
-	 * @param result the result of the executed request
-	 * @throws Exception if a failure occurs
-	 */
-	void match(MvcResult result) throws Exception;
+public interface ResultMatcher extends  org.springframework.test.web.ResultMatcher<MvcResult> {
 
 }
