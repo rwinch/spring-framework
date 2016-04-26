@@ -20,6 +20,7 @@ import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.context.EmbeddedValueResolverAware;
 import org.springframework.core.annotation.AnnotatedElementUtils;
@@ -38,6 +39,8 @@ import org.springframework.web.servlet.mvc.condition.CompositeRequestCondition;
 import org.springframework.web.servlet.mvc.condition.RequestCondition;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping;
+import org.springframework.web.servlet.support.RequestMatchInfo;
+import org.springframework.web.servlet.support.IntrospectableHandlerMapping;
 
 /**
  * Creates {@link RequestMappingInfo} instances from type and method-level
@@ -50,7 +53,7 @@ import org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMappi
  * @since 3.1
  */
 public class RequestMappingHandlerMapping extends RequestMappingInfoHandlerMapping
-		implements EmbeddedValueResolverAware {
+		implements EmbeddedValueResolverAware, IntrospectableHandlerMapping {
 
 	private boolean useSuffixPatternMatch = true;
 
@@ -272,6 +275,12 @@ public class RequestMappingHandlerMapping extends RequestMappingInfoHandlerMappi
 			}
 			return resolvedPatterns;
 		}
+	}
+
+	@Override
+	public boolean match(HttpServletRequest request, RequestMatchInfo match) {
+		RequestMappingInfo mapping = RequestMappingInfo.paths(match.getPatterns()).options(this.config).build();
+		return (mapping.getMatchingCondition(request) != null);
 	}
 
 	@Override
