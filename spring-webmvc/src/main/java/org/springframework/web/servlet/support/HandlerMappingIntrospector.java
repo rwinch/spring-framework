@@ -134,6 +134,7 @@ public class HandlerMappingIntrospector implements ApplicationContextAware, Cors
 	 * Extension of DispatcherServlet that allows us to obtain the default
 	 * HandlerMapping strategies when none were configured explicitly.
 	 */
+	@SuppressWarnings("serial")
 	private class ExtendedDispatcherServlet extends DispatcherServlet {
 
 		List<HandlerMapping> getDefaultHandlerMappings(ApplicationContext context) {
