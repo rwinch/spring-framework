@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package org.springframework.test.web.servlet.setup;
+package org.springframework.test.web.setup;
 
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
-import org.springframework.test.web.setup.MockHttpConfigurer;
 import org.springframework.web.context.WebApplicationContext;
 
 
@@ -37,7 +36,19 @@ import org.springframework.web.context.WebApplicationContext;
  * @since 4.1
  * @see org.springframework.test.web.servlet.setup.MockMvcConfigurerAdapter
  */
-public interface MockMvcConfigurer extends MockHttpConfigurer<ConfigurableMockMvcBuilder<?>> {
+public interface MockHttpConfigurer<B extends ConfigurableMockHttpBuilder<?,?>> {
 
+	/**
+	 * Invoked immediately after a {@code MockMvcConfigurer} is added via
+	 * {@link ConfigurableMockMvcBuilder#apply}.
+	 */
+	void afterConfigurerAdded(B builder);
+
+	/**
+	 * Invoked just before the MockMvc instance is created. Implementations may
+	 * return a RequestPostProcessor to be applied to every request performed
+	 * through the created {@code MockMvc} instance.
+	 */
+	RequestPostProcessor beforeMockMvcCreated(B builder, WebApplicationContext context);
 
 }
