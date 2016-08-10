@@ -16,9 +16,6 @@
 
 package org.springframework.test.web;
 
-import static org.springframework.test.util.AssertionErrors.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-
 import java.io.IOException;
 
 import javax.servlet.FilterChain;
@@ -29,7 +26,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.junit.Test;
 import org.springframework.mock.web.MockFilterChain;
+import org.springframework.test.web.http.result.MockHttpResultMatchers;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 /**
  *
@@ -46,12 +46,7 @@ public class MockHttpTests {
 		MockHttp mockHttp = MockHttpBuilders.filterChainSetup(filterChain);
 
 		mockHttp.perform(get("/"))
-			.andExpect(new HttpResultMatcher() {
-				@Override
-				public void match(HttpResult result) throws Exception {
-					assertEquals("Response status", 200, result.getResponse().getStatus());
-				}
-			});
+			.andExpect(MockHttpResultMatchers.status().isOk());
 	}
 
 	static class MyServlet extends HttpServlet {

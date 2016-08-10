@@ -20,7 +20,7 @@ import java.util.Map;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.hamcrest.Matcher;
-
+import org.springframework.test.web.http.result.MockHttpResultMatchers;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.util.AntPathMatcher;
@@ -39,17 +39,10 @@ import static org.springframework.test.util.AssertionErrors.*;
  * @author Sam Brannen
  * @since 3.2
  */
-public abstract class MockMvcResultMatchers {
+public abstract class MockMvcResultMatchers extends MockHttpResultMatchers {
 
 	private static final AntPathMatcher pathMatcher = new AntPathMatcher();
 
-
-	/**
-	 * Access to request-related assertions.
-	 */
-	public static RequestResultMatchers request() {
-		return new RequestResultMatchers();
-	}
 
 	/**
 	 * Access to assertions for the handler that handled the request.
@@ -77,79 +70,6 @@ public abstract class MockMvcResultMatchers {
 	 */
 	public static FlashAttributeResultMatchers flash() {
 		return new FlashAttributeResultMatchers();
-	}
-
-	/**
-	 * Asserts the request was forwarded to the given URL.
-	 * <p>This methods accepts only exact matches.
-	 * @param expectedUrl the exact URL expected
-	 */
-	public static ResultMatcher forwardedUrl(final String expectedUrl) {
-		return new ResultMatcher() {
-			@Override
-			public void match(MvcResult result) {
-				assertEquals("Forwarded URL", expectedUrl, result.getResponse().getForwardedUrl());
-			}
-		};
-	}
-
-	/**
-	 * Asserts the request was forwarded to the given URL.
-	 * <p>This methods accepts {@link org.springframework.util.AntPathMatcher}
-	 * expressions.
-	 * @param urlPattern an AntPath expression to match against
-	 * @since 4.0
-	 * @see org.springframework.util.AntPathMatcher
-	 */
-	public static ResultMatcher forwardedUrlPattern(final String urlPattern) {
-		return new ResultMatcher() {
-			@Override
-			public void match(MvcResult result) {
-				assertTrue("AntPath expression", pathMatcher.isPattern(urlPattern));
-				assertTrue("Forwarded URL does not match the expected URL pattern",
-						pathMatcher.match(urlPattern, result.getResponse().getForwardedUrl()));
-			}
-		};
-	}
-
-	/**
-	 * Asserts the request was redirected to the given URL.
-	 * <p>This methods accepts only exact matches.
-	 * @param expectedUrl the exact URL expected
-	 */
-	public static ResultMatcher redirectedUrl(final String expectedUrl) {
-		return new ResultMatcher() {
-			@Override
-			public void match(MvcResult result) {
-				assertEquals("Redirected URL", expectedUrl, result.getResponse().getRedirectedUrl());
-			}
-		};
-	}
-
-	/**
-	 * Asserts the request was redirected to the given URL.
-	 * <p>This method accepts {@link org.springframework.util.AntPathMatcher}
-	 * expressions.
-	 * @param expectedUrl an AntPath expression to match against
-	 * @see org.springframework.util.AntPathMatcher
-	 * @since 4.0
-	 */
-	public static ResultMatcher redirectedUrlPattern(final String expectedUrl) {
-		return new ResultMatcher() {
-			@Override
-			public void match(MvcResult result) {
-				assertTrue("AntPath expression",pathMatcher.isPattern(expectedUrl));
-				assertTrue("Redirected URL",
-						pathMatcher.match(expectedUrl, result.getResponse().getRedirectedUrl()));
-			}
-		};
-	}
-
-	/**
-	 * Access to response status assertions.
-	 */
-	public static StatusResultMatchers status() {
-		return new StatusResultMatchers();
 	}
 
 	/**
