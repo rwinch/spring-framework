@@ -17,10 +17,10 @@
 package org.springframework.test.web.http.result;
 
 import java.util.Map;
+
 import javax.xml.xpath.XPathExpressionException;
 
 import org.hamcrest.Matcher;
-
 import org.springframework.test.web.HttpResult;
 import org.springframework.test.web.HttpResultMatcher;
 import org.springframework.test.web.servlet.ResultMatcher;
@@ -124,79 +124,79 @@ public abstract class MockHttpResultMatchers {
 	public static HttpStatusResultMatchers status() {
 		return new HttpStatusResultMatchers();
 	}
-//
-//	/**
-//	 * Access to response header assertions.
-//	 */
-//	public static HeaderResultMatchers header() {
-//		return new HeaderResultMatchers();
-//	}
-//
-//	/**
-//	 * Access to response body assertions.
-//	 */
-//	public static ContentResultMatchers content() {
-//		return new ContentResultMatchers();
-//	}
-//
-//	/**
-//	 * Access to response body assertions using a
-//	 * <a href="https://github.com/jayway/JsonPath">JsonPath</a> expression
-//	 * to inspect a specific subset of the body.
-//	 * <p>The JSON path expression can be a parameterized string using
-//	 * formatting specifiers as defined in
-//	 * {@link String#format(String, Object...)}.
-//	 * @param expression the JSON path expression, optionally parameterized with arguments
-//	 * @param args arguments to parameterize the JSON path expression with
-//	 */
-//	public static JsonPathResultMatchers jsonPath(String expression, Object ... args) {
-//		return new JsonPathResultMatchers(expression, args);
-//	}
-//
-//	/**
-//	 * Access to response body assertions using a
-//	 * <a href="https://github.com/jayway/JsonPath">JsonPath</a> expression
-//	 * to inspect a specific subset of the body and a Hamcrest matcher for
-//	 * asserting the value found at the JSON path.
-//	 * @param expression the JSON path expression
-//	 * @param matcher a matcher for the value expected at the JSON path
-//	 */
-//	public static <T> ResultMatcher jsonPath(String expression, Matcher<T> matcher) {
-//		return new JsonPathResultMatchers(expression).value(matcher);
-//	}
-//
-//	/**
-//	 * Access to response body assertions using an XPath expression to
-//	 * inspect a specific subset of the body.
-//	 * <p>The XPath expression can be a parameterized string using formatting
-//	 * specifiers as defined in {@link String#format(String, Object...)}.
-//	 * @param expression the XPath expression, optionally parameterized with arguments
-//	 * @param args arguments to parameterize the XPath expression with
-//	 */
-//	public static XpathResultMatchers xpath(String expression, Object... args) throws XPathExpressionException {
-//		return new XpathResultMatchers(expression, null, args);
-//	}
-//
-//	/**
-//	 * Access to response body assertions using an XPath expression to
-//	 * inspect a specific subset of the body.
-//	 * <p>The XPath expression can be a parameterized string using formatting
-//	 * specifiers as defined in {@link String#format(String, Object...)}.
-//	 * @param expression the XPath expression, optionally parameterized with arguments
-//	 * @param namespaces namespaces referenced in the XPath expression
-//	 * @param args arguments to parameterize the XPath expression with
-//	 */
-//	public static XpathResultMatchers xpath(String expression, Map<String, String> namespaces, Object... args)
-//			throws XPathExpressionException {
-//
-//		return new XpathResultMatchers(expression, namespaces, args);
-//	}
-//
-//	/**
-//	 * Access to response cookie assertions.
-//	 */
-//	public static CookieResultMatchers cookie() {
-//		return new CookieResultMatchers();
-//	}
+
+	/**
+	 * Access to response header assertions.
+	 */
+	public static HttpHeaderResultMatchers header() {
+		return new HttpHeaderResultMatchers();
+	}
+
+	/**
+	 * Access to response body assertions.
+	 */
+	public static HttpContentResultMatchers content() {
+		return new HttpContentResultMatchers();
+	}
+
+	/**
+	 * Access to response body assertions using a
+	 * <a href="https://github.com/jayway/JsonPath">JsonPath</a> expression
+	 * to inspect a specific subset of the body.
+	 * <p>The JSON path expression can be a parameterized string using
+	 * formatting specifiers as defined in
+	 * {@link String#format(String, Object...)}.
+	 * @param expression the JSON path expression, optionally parameterized with arguments
+	 * @param args arguments to parameterize the JSON path expression with
+	 */
+	public static HttpJsonPathResultMatchers jsonPath(String expression, Object ... args) {
+		return new HttpJsonPathResultMatchers(expression, args);
+	}
+
+	/**
+	 * Access to response body assertions using a
+	 * <a href="https://github.com/jayway/JsonPath">JsonPath</a> expression
+	 * to inspect a specific subset of the body and a Hamcrest matcher for
+	 * asserting the value found at the JSON path.
+	 * @param expression the JSON path expression
+	 * @param matcher a matcher for the value expected at the JSON path
+	 */
+	public static <T> HttpResultMatcher<HttpResult> jsonPath(String expression, Matcher<T> matcher) {
+		return new HttpJsonPathResultMatchers(expression).value(matcher);
+	}
+
+	/**
+	 * Access to response body assertions using an XPath expression to
+	 * inspect a specific subset of the body.
+	 * <p>The XPath expression can be a parameterized string using formatting
+	 * specifiers as defined in {@link String#format(String, Object...)}.
+	 * @param expression the XPath expression, optionally parameterized with arguments
+	 * @param args arguments to parameterize the XPath expression with
+	 */
+	public static HttpXpathResultMatchers xpath(String expression, Object... args) throws XPathExpressionException {
+		return new HttpXpathResultMatchers(expression, null, args);
+	}
+
+	/**
+	 * Access to response body assertions using an XPath expression to
+	 * inspect a specific subset of the body.
+	 * <p>The XPath expression can be a parameterized string using formatting
+	 * specifiers as defined in {@link String#format(String, Object...)}.
+	 * @param expression the XPath expression, optionally parameterized with arguments
+	 * @param namespaces namespaces referenced in the XPath expression
+	 * @param args arguments to parameterize the XPath expression with
+	 */
+	public static HttpXpathResultMatchers xpath(String expression, Map<String, String> namespaces, Object... args)
+			throws XPathExpressionException {
+
+		return new HttpXpathResultMatchers(expression, namespaces, args);
+	}
+
+	/**
+	 * Access to response cookie assertions.
+	 */
+	public static HttpCookieResultMatchers cookie() {
+		return new HttpCookieResultMatchers();
+	}
 
 }
