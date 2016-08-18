@@ -23,6 +23,7 @@ import org.hamcrest.Matcher;
 
 import org.springframework.test.web.HttpResult;
 import org.springframework.test.web.HttpResultMatcher;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.util.AntPathMatcher;
 
 import static org.springframework.test.util.AssertionErrors.*;
@@ -56,8 +57,8 @@ public abstract class MockHttpResultMatchers {
 	 * <p>This methods accepts only exact matches.
 	 * @param expectedUrl the exact URL expected
 	 */
-	public static HttpResultMatcher forwardedUrl(final String expectedUrl) {
-		return new HttpResultMatcher() {
+	public static HttpResultMatcher<HttpResult> forwardedUrl(final String expectedUrl) {
+		return new HttpResultMatcher<HttpResult>() {
 			@Override
 			public void match(HttpResult result) {
 				assertEquals("Forwarded URL", expectedUrl, result.getResponse().getForwardedUrl());
@@ -73,8 +74,8 @@ public abstract class MockHttpResultMatchers {
 	 * @since 4.0
 	 * @see org.springframework.util.AntPathMatcher
 	 */
-	public static HttpResultMatcher forwardedUrlPattern(final String urlPattern) {
-		return new HttpResultMatcher() {
+	public static HttpResultMatcher<HttpResult> forwardedUrlPattern(final String urlPattern) {
+		return new HttpResultMatcher<HttpResult>() {
 			@Override
 			public void match(HttpResult result) {
 				assertTrue("AntPath expression", pathMatcher.isPattern(urlPattern));
@@ -89,8 +90,8 @@ public abstract class MockHttpResultMatchers {
 	 * <p>This methods accepts only exact matches.
 	 * @param expectedUrl the exact URL expected
 	 */
-	public static HttpResultMatcher redirectedUrl(final String expectedUrl) {
-		return new HttpResultMatcher() {
+	public static HttpResultMatcher<HttpResult> redirectedUrl(final String expectedUrl) {
+		return new HttpResultMatcher<HttpResult>() {
 			@Override
 			public void match(HttpResult result) {
 				assertEquals("Redirected URL", expectedUrl, result.getResponse().getRedirectedUrl());
@@ -106,8 +107,8 @@ public abstract class MockHttpResultMatchers {
 	 * @see org.springframework.util.AntPathMatcher
 	 * @since 4.0
 	 */
-	public static HttpResultMatcher redirectedUrlPattern(final String expectedUrl) {
-		return new HttpResultMatcher() {
+	public static HttpResultMatcher<HttpResult> redirectedUrlPattern(final String expectedUrl) {
+		return new HttpResultMatcher<HttpResult>() {
 			@Override
 			public void match(HttpResult result) {
 				assertTrue("AntPath expression",pathMatcher.isPattern(expectedUrl));

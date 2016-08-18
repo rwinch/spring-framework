@@ -49,8 +49,8 @@ public class HttpStatusResultMatchers {
 	/**
 	 * Assert the response status code with the given Hamcrest {@link Matcher}.
 	 */
-	public HttpResultMatcher is(final Matcher<Integer> matcher) {
-		return new HttpResultMatcher() {
+	public HttpResultMatcher<HttpResult> is(final Matcher<Integer> matcher) {
+		return new HttpResultMatcher<HttpResult>() {
 			@Override
 			public void match(HttpResult result) throws Exception {
 				assertThat("Response status", result.getResponse().getStatus(), matcher);
@@ -61,8 +61,8 @@ public class HttpStatusResultMatchers {
 	/**
 	 * Assert the response status code is equal to an integer value.
 	 */
-	public HttpResultMatcher is(final int status) {
-		return new HttpResultMatcher() {
+	public HttpResultMatcher<HttpResult> is(final int status) {
+		return new HttpResultMatcher<HttpResult>() {
 			@Override
 			public void match(HttpResult result) throws Exception {
 				assertEquals("Response status", status, result.getResponse().getStatus());
@@ -73,8 +73,8 @@ public class HttpStatusResultMatchers {
 	/**
 	 * Assert the response status code is in the 1xx range.
 	 */
-	public HttpResultMatcher is1xxInformational() {
-		return new HttpResultMatcher() {
+	public HttpResultMatcher<HttpResult> is1xxInformational() {
+		return new HttpResultMatcher<HttpResult>() {
 			@Override
 			public void match(HttpResult result) throws Exception {
 				assertEquals("Range for response status value " + result.getResponse().getStatus(),
@@ -86,8 +86,8 @@ public class HttpStatusResultMatchers {
 	/**
 	 * Assert the response status code is in the 2xx range.
 	 */
-	public HttpResultMatcher is2xxSuccessful() {
-		return new HttpResultMatcher() {
+	public HttpResultMatcher<HttpResult> is2xxSuccessful() {
+		return new HttpResultMatcher<HttpResult>() {
 			@Override
 			public void match(HttpResult result) throws Exception {
 				assertEquals("Range for response status value " + result.getResponse().getStatus(),
@@ -99,8 +99,8 @@ public class HttpStatusResultMatchers {
 	/**
 	 * Assert the response status code is in the 3xx range.
 	 */
-	public HttpResultMatcher is3xxRedirection() {
-		return new HttpResultMatcher() {
+	public HttpResultMatcher<HttpResult> is3xxRedirection() {
+		return new HttpResultMatcher<HttpResult>() {
 			@Override
 			public void match(HttpResult result) throws Exception {
 				assertEquals("Range for response status value " + result.getResponse().getStatus(),
@@ -112,8 +112,8 @@ public class HttpStatusResultMatchers {
 	/**
 	 * Assert the response status code is in the 4xx range.
 	 */
-	public HttpResultMatcher is4xxClientError() {
-		return new HttpResultMatcher() {
+	public HttpResultMatcher<HttpResult> is4xxClientError() {
+		return new HttpResultMatcher<HttpResult>() {
 			@Override
 			public void match(HttpResult result) throws Exception {
 				assertEquals("Range for response status value " + result.getResponse().getStatus(),
@@ -125,8 +125,8 @@ public class HttpStatusResultMatchers {
 	/**
 	 * Assert the response status code is in the 5xx range.
 	 */
-	public HttpResultMatcher is5xxServerError() {
-		return new HttpResultMatcher() {
+	public HttpResultMatcher<HttpResult> is5xxServerError() {
+		return new HttpResultMatcher<HttpResult>() {
 			@Override
 			public void match(HttpResult result) throws Exception {
 				assertEquals("Range for response status value " + result.getResponse().getStatus(),
@@ -144,8 +144,8 @@ public class HttpStatusResultMatchers {
 	/**
 	 * Assert the Servlet response error message with the given Hamcrest {@link Matcher}.
 	 */
-	public HttpResultMatcher reason(final Matcher<? super String> matcher) {
-		return new HttpResultMatcher() {
+	public HttpResultMatcher<HttpResult> reason(final Matcher<? super String> matcher) {
+		return new HttpResultMatcher<HttpResult>() {
 			@Override
 			public void match(HttpResult result) throws Exception {
 				assertThat("Response status reason", result.getResponse().getErrorMessage(), matcher);
@@ -156,8 +156,8 @@ public class HttpStatusResultMatchers {
 	/**
 	 * Assert the Servlet response error message.
 	 */
-	public HttpResultMatcher reason(final String reason) {
-		return new HttpResultMatcher() {
+	public HttpResultMatcher<HttpResult> reason(final String reason) {
+		return new HttpResultMatcher<HttpResult>() {
 			@Override
 			public void match(HttpResult result) throws Exception {
 				assertEquals("Response status reason", reason, result.getResponse().getErrorMessage());
@@ -168,119 +168,119 @@ public class HttpStatusResultMatchers {
 	/**
 	 * Assert the response status code is {@code HttpStatus.CONTINUE} (100).
 	 */
-	public HttpResultMatcher isContinue() {
+	public HttpResultMatcher<HttpResult> isContinue() {
 		return matcher(HttpStatus.CONTINUE);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.SWITCHING_PROTOCOLS} (101).
 	 */
-	public HttpResultMatcher isSwitchingProtocols() {
+	public HttpResultMatcher<HttpResult> isSwitchingProtocols() {
 		return matcher(HttpStatus.SWITCHING_PROTOCOLS);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.PROCESSING} (102).
 	 */
-	public HttpResultMatcher isProcessing() {
+	public HttpResultMatcher<HttpResult> isProcessing() {
 		return matcher(HttpStatus.PROCESSING);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.CHECKPOINT} (103).
 	 */
-	public HttpResultMatcher isCheckpoint() {
+	public HttpResultMatcher<HttpResult> isCheckpoint() {
 		return matcher(HttpStatus.valueOf(103));
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.OK} (200).
 	 */
-	public HttpResultMatcher isOk() {
+	public HttpResultMatcher<HttpResult> isOk() {
 		return matcher(HttpStatus.OK);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.CREATED} (201).
 	 */
-	public HttpResultMatcher isCreated() {
+	public HttpResultMatcher<HttpResult> isCreated() {
 		return matcher(HttpStatus.CREATED);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.ACCEPTED} (202).
 	 */
-	public HttpResultMatcher isAccepted() {
+	public HttpResultMatcher<HttpResult> isAccepted() {
 		return matcher(HttpStatus.ACCEPTED);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.NON_AUTHORITATIVE_INFORMATION} (203).
 	 */
-	public HttpResultMatcher isNonAuthoritativeInformation() {
+	public HttpResultMatcher<HttpResult> isNonAuthoritativeInformation() {
 		return matcher(HttpStatus.NON_AUTHORITATIVE_INFORMATION);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.NO_CONTENT} (204).
 	 */
-	public HttpResultMatcher isNoContent() {
+	public HttpResultMatcher<HttpResult> isNoContent() {
 		return matcher(HttpStatus.NO_CONTENT);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.RESET_CONTENT} (205).
 	 */
-	public HttpResultMatcher isResetContent() {
+	public HttpResultMatcher<HttpResult> isResetContent() {
 		return matcher(HttpStatus.RESET_CONTENT);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.PARTIAL_CONTENT} (206).
 	 */
-	public HttpResultMatcher isPartialContent() {
+	public HttpResultMatcher<HttpResult> isPartialContent() {
 		return matcher(HttpStatus.PARTIAL_CONTENT);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.MULTI_STATUS} (207).
 	 */
-	public HttpResultMatcher isMultiStatus() {
+	public HttpResultMatcher<HttpResult> isMultiStatus() {
 		return matcher(HttpStatus.MULTI_STATUS);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.ALREADY_REPORTED} (208).
 	 */
-	public HttpResultMatcher isAlreadyReported() {
+	public HttpResultMatcher<HttpResult> isAlreadyReported() {
 		return matcher(HttpStatus.ALREADY_REPORTED);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.IM_USED} (226).
 	 */
-	public HttpResultMatcher isImUsed() {
+	public HttpResultMatcher<HttpResult> isImUsed() {
 		return matcher(HttpStatus.IM_USED);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.MULTIPLE_CHOICES} (300).
 	 */
-	public HttpResultMatcher isMultipleChoices() {
+	public HttpResultMatcher<HttpResult> isMultipleChoices() {
 		return matcher(HttpStatus.MULTIPLE_CHOICES);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.MOVED_PERMANENTLY} (301).
 	 */
-	public HttpResultMatcher isMovedPermanently() {
+	public HttpResultMatcher<HttpResult> isMovedPermanently() {
 		return matcher(HttpStatus.MOVED_PERMANENTLY);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.FOUND} (302).
 	 */
-	public HttpResultMatcher isFound() {
+	public HttpResultMatcher<HttpResult> isFound() {
 		return matcher(HttpStatus.FOUND);
 	}
 
@@ -290,21 +290,21 @@ public class HttpStatusResultMatchers {
 	 * @deprecated in favor of {@link #isFound()}
 	 */
 	@Deprecated
-	public HttpResultMatcher isMovedTemporarily() {
+	public HttpResultMatcher<HttpResult> isMovedTemporarily() {
 		return matcher(HttpStatus.MOVED_TEMPORARILY);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.SEE_OTHER} (303).
 	 */
-	public HttpResultMatcher isSeeOther() {
+	public HttpResultMatcher<HttpResult> isSeeOther() {
 		return matcher(HttpStatus.SEE_OTHER);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.NOT_MODIFIED} (304).
 	 */
-	public HttpResultMatcher isNotModified() {
+	public HttpResultMatcher<HttpResult> isNotModified() {
 		return matcher(HttpStatus.NOT_MODIFIED);
 	}
 
@@ -313,112 +313,112 @@ public class HttpStatusResultMatchers {
 	 * @deprecated matching the deprecation of {@code HttpStatus.USE_PROXY}
 	 */
 	@Deprecated
-	public HttpResultMatcher isUseProxy() {
+	public HttpResultMatcher<HttpResult> isUseProxy() {
 		return matcher(HttpStatus.USE_PROXY);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.TEMPORARY_REDIRECT} (307).
 	 */
-	public HttpResultMatcher isTemporaryRedirect() {
+	public HttpResultMatcher<HttpResult> isTemporaryRedirect() {
 		return matcher(HttpStatus.TEMPORARY_REDIRECT);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.PERMANENT_REDIRECT} (308).
 	 */
-	public HttpResultMatcher isPermanentRedirect() {
+	public HttpResultMatcher<HttpResult> isPermanentRedirect() {
 		return matcher(HttpStatus.valueOf(308));
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.BAD_REQUEST} (400).
 	 */
-	public HttpResultMatcher isBadRequest() {
+	public HttpResultMatcher<HttpResult> isBadRequest() {
 		return matcher(HttpStatus.BAD_REQUEST);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.UNAUTHORIZED} (401).
 	 */
-	public HttpResultMatcher isUnauthorized() {
+	public HttpResultMatcher<HttpResult> isUnauthorized() {
 		return matcher(HttpStatus.UNAUTHORIZED);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.PAYMENT_REQUIRED} (402).
 	 */
-	public HttpResultMatcher isPaymentRequired() {
+	public HttpResultMatcher<HttpResult> isPaymentRequired() {
 		return matcher(HttpStatus.PAYMENT_REQUIRED);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.FORBIDDEN} (403).
 	 */
-	public HttpResultMatcher isForbidden() {
+	public HttpResultMatcher<HttpResult> isForbidden() {
 		return matcher(HttpStatus.FORBIDDEN);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.NOT_FOUND} (404).
 	 */
-	public HttpResultMatcher isNotFound() {
+	public HttpResultMatcher<HttpResult> isNotFound() {
 		return matcher(HttpStatus.NOT_FOUND);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.METHOD_NOT_ALLOWED} (405).
 	 */
-	public HttpResultMatcher isMethodNotAllowed() {
+	public HttpResultMatcher<HttpResult> isMethodNotAllowed() {
 		return matcher(HttpStatus.METHOD_NOT_ALLOWED);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.NOT_ACCEPTABLE} (406).
 	 */
-	public HttpResultMatcher isNotAcceptable() {
+	public HttpResultMatcher<HttpResult> isNotAcceptable() {
 		return matcher(HttpStatus.NOT_ACCEPTABLE);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.PROXY_AUTHENTICATION_REQUIRED} (407).
 	 */
-	public HttpResultMatcher isProxyAuthenticationRequired() {
+	public HttpResultMatcher<HttpResult> isProxyAuthenticationRequired() {
 		return matcher(HttpStatus.PROXY_AUTHENTICATION_REQUIRED);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.REQUEST_TIMEOUT} (408).
 	 */
-	public HttpResultMatcher isRequestTimeout() {
+	public HttpResultMatcher<HttpResult> isRequestTimeout() {
 		return matcher(HttpStatus.REQUEST_TIMEOUT);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.CONFLICT} (409).
 	 */
-	public HttpResultMatcher isConflict() {
+	public HttpResultMatcher<HttpResult> isConflict() {
 		return matcher(HttpStatus.CONFLICT);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.GONE} (410).
 	 */
-	public HttpResultMatcher isGone() {
+	public HttpResultMatcher<HttpResult> isGone() {
 		return matcher(HttpStatus.GONE);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.LENGTH_REQUIRED} (411).
 	 */
-	public HttpResultMatcher isLengthRequired() {
+	public HttpResultMatcher<HttpResult> isLengthRequired() {
 		return matcher(HttpStatus.LENGTH_REQUIRED);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.PRECONDITION_FAILED} (412).
 	 */
-	public HttpResultMatcher isPreconditionFailed() {
+	public HttpResultMatcher<HttpResult> isPreconditionFailed() {
 		return matcher(HttpStatus.PRECONDITION_FAILED);
 	}
 
@@ -426,7 +426,7 @@ public class HttpStatusResultMatchers {
 	 * Assert the response status code is {@code HttpStatus.PAYLOAD_TOO_LARGE} (413).
 	 * @since 4.1
 	 */
-	public HttpResultMatcher isPayloadTooLarge() {
+	public HttpResultMatcher<HttpResult> isPayloadTooLarge() {
 		return matcher(HttpStatus.PAYLOAD_TOO_LARGE);
 	}
 
@@ -436,7 +436,7 @@ public class HttpStatusResultMatchers {
 	 * @see #isPayloadTooLarge()
 	 */
 	@Deprecated
-	public HttpResultMatcher isRequestEntityTooLarge() {
+	public HttpResultMatcher<HttpResult> isRequestEntityTooLarge() {
 		return matcher(HttpStatus.REQUEST_ENTITY_TOO_LARGE);
 	}
 
@@ -444,7 +444,7 @@ public class HttpStatusResultMatchers {
 	 * Assert the response status code is {@code HttpStatus.REQUEST_URI_TOO_LONG} (414).
 	 * @since 4.1
 	 */
-	public HttpResultMatcher isUriTooLong() {
+	public HttpResultMatcher<HttpResult> isUriTooLong() {
 		return matcher(HttpStatus.URI_TOO_LONG);
 	}
 
@@ -454,35 +454,35 @@ public class HttpStatusResultMatchers {
 	 * @see #isUriTooLong()
 	 */
 	@Deprecated
-	public HttpResultMatcher isRequestUriTooLong() {
+	public HttpResultMatcher<HttpResult> isRequestUriTooLong() {
 		return matcher(HttpStatus.REQUEST_URI_TOO_LONG);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.UNSUPPORTED_MEDIA_TYPE} (415).
 	 */
-	public HttpResultMatcher isUnsupportedMediaType() {
+	public HttpResultMatcher<HttpResult> isUnsupportedMediaType() {
 		return matcher(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE} (416).
 	 */
-	public HttpResultMatcher isRequestedRangeNotSatisfiable() {
+	public HttpResultMatcher<HttpResult> isRequestedRangeNotSatisfiable() {
 		return matcher(HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.EXPECTATION_FAILED} (417).
 	 */
-	public HttpResultMatcher isExpectationFailed() {
+	public HttpResultMatcher<HttpResult> isExpectationFailed() {
 		return matcher(HttpStatus.EXPECTATION_FAILED);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.I_AM_A_TEAPOT} (418).
 	 */
-	public HttpResultMatcher isIAmATeapot() {
+	public HttpResultMatcher<HttpResult> isIAmATeapot() {
 		return matcher(HttpStatus.valueOf(418));
 	}
 
@@ -491,7 +491,7 @@ public class HttpStatusResultMatchers {
 	  * @deprecated matching the deprecation of {@code HttpStatus.INSUFFICIENT_SPACE_ON_RESOURCE}
 	  */
 	 @Deprecated
-	 public HttpResultMatcher isInsufficientSpaceOnResource() {
+	 public HttpResultMatcher<HttpResult> isInsufficientSpaceOnResource() {
 		 return matcher(HttpStatus.INSUFFICIENT_SPACE_ON_RESOURCE);
 	 }
 
@@ -500,7 +500,7 @@ public class HttpStatusResultMatchers {
 	  * @deprecated matching the deprecation of {@code HttpStatus.METHOD_FAILURE}
 	  */
 	 @Deprecated
-	 public HttpResultMatcher isMethodFailure() {
+	 public HttpResultMatcher<HttpResult> isMethodFailure() {
 		 return matcher(HttpStatus.METHOD_FAILURE);
 	 }
 
@@ -509,56 +509,56 @@ public class HttpStatusResultMatchers {
 	  * @deprecated matching the deprecation of {@code HttpStatus.DESTINATION_LOCKED}
 	  */
 	 @Deprecated
-	 public HttpResultMatcher isDestinationLocked() {
+	 public HttpResultMatcher<HttpResult> isDestinationLocked() {
 		 return matcher(HttpStatus.DESTINATION_LOCKED);
 	 }
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.UNPROCESSABLE_ENTITY} (422).
 	 */
-	public HttpResultMatcher isUnprocessableEntity() {
+	public HttpResultMatcher<HttpResult> isUnprocessableEntity() {
 		return matcher(HttpStatus.UNPROCESSABLE_ENTITY);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.LOCKED} (423).
 	 */
-	public HttpResultMatcher isLocked() {
+	public HttpResultMatcher<HttpResult> isLocked() {
 		return matcher(HttpStatus.LOCKED);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.FAILED_DEPENDENCY} (424).
 	 */
-	public HttpResultMatcher isFailedDependency() {
+	public HttpResultMatcher<HttpResult> isFailedDependency() {
 		return matcher(HttpStatus.FAILED_DEPENDENCY);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.UPGRADE_REQUIRED} (426).
 	 */
-	public HttpResultMatcher isUpgradeRequired() {
+	public HttpResultMatcher<HttpResult> isUpgradeRequired() {
 		return matcher(HttpStatus.UPGRADE_REQUIRED);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.PRECONDITION_REQUIRED} (428).
 	 */
-	public HttpResultMatcher isPreconditionRequired() {
+	public HttpResultMatcher<HttpResult> isPreconditionRequired() {
 		return matcher(HttpStatus.valueOf(428));
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.TOO_MANY_REQUESTS} (429).
 	 */
-	public HttpResultMatcher isTooManyRequests() {
+	public HttpResultMatcher<HttpResult> isTooManyRequests() {
 		return matcher(HttpStatus.valueOf(429));
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.REQUEST_HEADER_FIELDS_TOO_LARGE} (431).
 	 */
-	public HttpResultMatcher isRequestHeaderFieldsTooLarge() {
+	public HttpResultMatcher<HttpResult> isRequestHeaderFieldsTooLarge() {
 		return matcher(HttpStatus.valueOf(431));
 	}
 
@@ -566,99 +566,99 @@ public class HttpStatusResultMatchers {
 	 * Assert the response status code is {@code HttpStatus.UNAVAILABLE_FOR_LEGAL_REASONS} (451).
 	 * @since 4.3
 	 */
-	public HttpResultMatcher isUnavailableForLegalReasons() {
+	public HttpResultMatcher<HttpResult> isUnavailableForLegalReasons() {
 		return matcher(HttpStatus.valueOf(451));
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.INTERNAL_SERVER_ERROR} (500).
 	 */
-	public HttpResultMatcher isInternalServerError() {
+	public HttpResultMatcher<HttpResult> isInternalServerError() {
 		return matcher(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.NOT_IMPLEMENTED} (501).
 	 */
-	public HttpResultMatcher isNotImplemented() {
+	public HttpResultMatcher<HttpResult> isNotImplemented() {
 		return matcher(HttpStatus.NOT_IMPLEMENTED);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.BAD_GATEWAY} (502).
 	 */
-	public HttpResultMatcher isBadGateway() {
+	public HttpResultMatcher<HttpResult> isBadGateway() {
 		return matcher(HttpStatus.BAD_GATEWAY);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.SERVICE_UNAVAILABLE} (503).
 	 */
-	public HttpResultMatcher isServiceUnavailable() {
+	public HttpResultMatcher<HttpResult> isServiceUnavailable() {
 		return matcher(HttpStatus.SERVICE_UNAVAILABLE);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.GATEWAY_TIMEOUT} (504).
 	 */
-	public HttpResultMatcher isGatewayTimeout() {
+	public HttpResultMatcher<HttpResult> isGatewayTimeout() {
 		return matcher(HttpStatus.GATEWAY_TIMEOUT);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.HTTP_VERSION_NOT_SUPPORTED} (505).
 	 */
-	public HttpResultMatcher isHttpVersionNotSupported() {
+	public HttpResultMatcher<HttpResult> isHttpVersionNotSupported() {
 		return matcher(HttpStatus.HTTP_VERSION_NOT_SUPPORTED);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.VARIANT_ALSO_NEGOTIATES} (506).
 	 */
-	public HttpResultMatcher isVariantAlsoNegotiates() {
+	public HttpResultMatcher<HttpResult> isVariantAlsoNegotiates() {
 		return matcher(HttpStatus.VARIANT_ALSO_NEGOTIATES);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.INSUFFICIENT_STORAGE} (507).
 	 */
-	public HttpResultMatcher isInsufficientStorage() {
+	public HttpResultMatcher<HttpResult> isInsufficientStorage() {
 		return matcher(HttpStatus.INSUFFICIENT_STORAGE);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.LOOP_DETECTED} (508).
 	 */
-	public HttpResultMatcher isLoopDetected() {
+	public HttpResultMatcher<HttpResult> isLoopDetected() {
 		return matcher(HttpStatus.LOOP_DETECTED);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.BANDWIDTH_LIMIT_EXCEEDED} (509).
 	 */
-	public HttpResultMatcher isBandwidthLimitExceeded() {
+	public HttpResultMatcher<HttpResult> isBandwidthLimitExceeded() {
 		return matcher(HttpStatus.valueOf(509));
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.NOT_EXTENDED} (510).
 	 */
-	public HttpResultMatcher isNotExtended() {
+	public HttpResultMatcher<HttpResult> isNotExtended() {
 		return matcher(HttpStatus.NOT_EXTENDED);
 	}
 
 	/**
 	 * Assert the response status code is {@code HttpStatus.NETWORK_AUTHENTICATION_REQUIRED} (511).
 	 */
-	public HttpResultMatcher isNetworkAuthenticationRequired() {
+	public HttpResultMatcher<HttpResult> isNetworkAuthenticationRequired() {
 		return matcher(HttpStatus.valueOf(511));
 	}
 
 	/**
 	 * Match the expected response status to that of the HttpServletResponse
 	 */
-	private HttpResultMatcher matcher(final HttpStatus status) {
-		return new HttpResultMatcher() {
+	private HttpResultMatcher<HttpResult> matcher(final HttpStatus status) {
+		return new HttpResultMatcher<HttpResult>() {
 			@Override
 			public void match(HttpResult result) {
 				assertEquals("Status", status.value(), result.getResponse().getStatus());

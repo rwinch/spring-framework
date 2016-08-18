@@ -58,8 +58,8 @@ public class HttpRequestResultMatchers {
 	 * processing all the way since a {@link MockHttpServletRequest} does not
 	 * perform asynchronous dispatches.
 	 */
-	public HttpResultMatcher asyncStarted() {
-		return new HttpResultMatcher() {
+	public HttpResultMatcher<HttpResult> asyncStarted() {
+		return new HttpResultMatcher<HttpResult>() {
 			@Override
 			public void match(HttpResult result) {
 				HttpServletRequest request = result.getRequest();
@@ -72,8 +72,8 @@ public class HttpRequestResultMatchers {
 	 * Assert that asynchronous processing was not started.
 	 * @see #asyncStarted()
 	 */
-	public HttpResultMatcher asyncNotStarted() {
-		return new HttpResultMatcher() {
+	public HttpResultMatcher<HttpResult> asyncNotStarted() {
+		return new HttpResultMatcher<HttpResult>() {
 			@Override
 			public void match(HttpResult result) {
 				HttpServletRequest request = result.getRequest();
@@ -87,8 +87,8 @@ public class HttpRequestResultMatchers {
 	 * <p>This method can be used when a controller method returns {@link Callable}
 	 * or {@link WebAsyncTask}.
 	 */
-	public <T> HttpResultMatcher asyncResult(final Matcher<T> matcher) {
-		return new HttpResultMatcher() {
+	public <T> HttpResultMatcher<HttpResult> asyncResult(final Matcher<T> matcher) {
+		return new HttpResultMatcher<HttpResult>() {
 			@Override
 			@SuppressWarnings("unchecked")
 			public void match(HttpResult result) {
@@ -105,8 +105,8 @@ public class HttpRequestResultMatchers {
 	 * or {@link WebAsyncTask}. The value matched is the value returned from the
 	 * {@code Callable} or the exception raised.
 	 */
-	public <T> HttpResultMatcher asyncResult(final Object expectedResult) {
-		return new HttpResultMatcher() {
+	public <T> HttpResultMatcher<HttpResult> asyncResult(final Object expectedResult) {
+		return new HttpResultMatcher<HttpResult>() {
 			@Override
 			public void match(HttpResult result) {
 				HttpServletRequest request = result.getRequest();
@@ -119,8 +119,8 @@ public class HttpRequestResultMatchers {
 	/**
 	 * Assert a request attribute value with the given Hamcrest {@link Matcher}.
 	 */
-	public <T> HttpResultMatcher attribute(final String name, final Matcher<T> matcher) {
-		return new HttpResultMatcher() {
+	public <T> HttpResultMatcher<HttpResult> attribute(final String name, final Matcher<T> matcher) {
+		return new HttpResultMatcher<HttpResult>() {
 			@Override
 			@SuppressWarnings("unchecked")
 			public void match(HttpResult result) {
@@ -133,8 +133,8 @@ public class HttpRequestResultMatchers {
 	/**
 	 * Assert a request attribute value.
 	 */
-	public <T> HttpResultMatcher attribute(final String name, final Object expectedValue) {
-		return new HttpResultMatcher() {
+	public <T> HttpResultMatcher<HttpResult> attribute(final String name, final Object expectedValue) {
+		return new HttpResultMatcher<HttpResult>() {
 			@Override
 			public void match(HttpResult result) {
 				assertEquals("Request attribute '" + name + "'", expectedValue, result.getRequest().getAttribute(name));
@@ -145,8 +145,8 @@ public class HttpRequestResultMatchers {
 	/**
 	 * Assert a session attribute value with the given Hamcrest {@link Matcher}.
 	 */
-	public <T> HttpResultMatcher sessionAttribute(final String name, final Matcher<T> matcher) {
-		return new HttpResultMatcher() {
+	public <T> HttpResultMatcher<HttpResult> sessionAttribute(final String name, final Matcher<T> matcher) {
+		return new HttpResultMatcher<HttpResult>() {
 			@Override
 			@SuppressWarnings("unchecked")
 			public void match(HttpResult result) {
@@ -159,8 +159,8 @@ public class HttpRequestResultMatchers {
 	/**
 	 * Assert a session attribute value.
 	 */
-	public <T> HttpResultMatcher sessionAttribute(final String name, final Object value) {
-		return new HttpResultMatcher() {
+	public <T> HttpResultMatcher<HttpResult> sessionAttribute(final String name, final Object value) {
+		return new HttpResultMatcher<HttpResult>() {
 			@Override
 			public void match(HttpResult result) {
 				assertEquals("Session attribute '" + name + "'", value, result.getRequest().getSession().getAttribute(name));

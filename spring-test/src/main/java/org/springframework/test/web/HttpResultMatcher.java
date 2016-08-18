@@ -47,7 +47,7 @@ package org.springframework.test.web;
  * @since 3.2
  */
 @FunctionalInterface
-public interface HttpResultMatcher {
+public interface HttpResultMatcher<T extends HttpResult> {
 
 	/**
 	 * Assert the result of an executed request.
@@ -55,6 +55,6 @@ public interface HttpResultMatcher {
 	 * @param result the result of the executed request
 	 * @throws Exception if a failure occurs
 	 */
-	void match(HttpResult result) throws Exception;
+	void match(T result) throws Exception;
 
 }

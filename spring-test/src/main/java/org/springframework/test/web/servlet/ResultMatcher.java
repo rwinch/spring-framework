@@ -16,6 +16,8 @@
 
 package org.springframework.test.web.servlet;
 
+import org.springframework.test.web.HttpResultMatcher;
+
 /**
  * A {@code ResultMatcher} matches the result of an executed request against
  * some expectation.
@@ -47,14 +49,7 @@ package org.springframework.test.web.servlet;
  * @since 3.2
  */
 @FunctionalInterface
-public interface ResultMatcher {
+public interface ResultMatcher extends HttpResultMatcher<MvcResult> {
 
-	/**
-	 * Assert the result of an executed request.
-	 *
-	 * @param result the result of the executed request
-	 * @throws Exception if a failure occurs
-	 */
-	void match(MvcResult result) throws Exception;
 
 }
