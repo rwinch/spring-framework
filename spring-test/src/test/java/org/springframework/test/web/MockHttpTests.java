@@ -20,15 +20,13 @@ import java.io.IOException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.junit.Test;
-import org.springframework.mock.web.MockFilterChain;
-import org.springframework.test.web.http.result.MockHttpResultMatchers;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import static org.springframework.test.web.http.result.MockHttpResultMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 /**
@@ -41,25 +39,17 @@ public class MockHttpTests {
 	@Test
 	public void hello() throws Exception {
 		MyFilter filter = new MyFilter();
-		MockFilterChain filterChain = new MockFilterChain(new MyServlet(), filter);
 
-		MockHttp mockHttp = MockHttpBuilders.filterChainSetup(filterChain);
+		MockHttp mockHttp = MockHttpBuilders
+				.filtersSetup(filter)
+				.build();
 
 		mockHttp.perform(get("/"))
-			.andExpect(MockHttpResultMatchers.status().isOk());
-	}
-
-	static class MyServlet extends HttpServlet {
-
-		/* (non-Javadoc)
-		 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-		 */
-		@Override
-		protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-				throws ServletException, IOException {
-			resp.setStatus(200);
-		}
-
+			.andExpect(status().isOk())
+			.andExpect(forwardedUrl(null))
+			.andExpect(redirectedUrl(null))
+			.andExpect(header().doesNotExist("missing"))
+			.andExpect(content().string(""));
 	}
 
 	static class MyFilter extends OncePerRequestFilter {

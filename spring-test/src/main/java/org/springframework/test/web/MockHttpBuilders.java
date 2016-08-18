@@ -16,6 +16,9 @@
 
 package org.springframework.test.web;
 
+import javax.servlet.Filter;
+import javax.servlet.Servlet;
+
 import org.springframework.mock.web.MockFilterChain;
 import org.springframework.mock.web.MockServletContext;
 
@@ -28,5 +31,20 @@ public class MockHttpBuilders {
 
 	public static MockHttp filterChainSetup(MockFilterChain filterChain) {
 		return new MockHttp(filterChain, new MockServletContext());
+	}
+	
+	public static DefaultMockHttpBuilder servletSetup(Servlet servlet) {
+		DefaultMockHttpBuilder builder = new DefaultMockHttpBuilder();
+		return builder.servlet(servlet);
+	}
+	
+	public static DefaultMockHttpBuilder filtersSetup(Filter... filters) {
+		DefaultMockHttpBuilder builder = new DefaultMockHttpBuilder();
+		return builder.addFilters(filters);
+	}
+	
+	public static DefaultMockHttpBuilder filterSetup(Filter filter, String... urlPatterns) {
+		DefaultMockHttpBuilder builder = new DefaultMockHttpBuilder();
+		return builder.addFilter(filter, urlPatterns);
 	}
 }
