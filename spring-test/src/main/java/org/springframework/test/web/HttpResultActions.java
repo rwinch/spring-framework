@@ -50,7 +50,7 @@ public interface HttpResultActions {
 	 *   .andExpect(flash().attribute("message", "success!"));
 	 * </pre>
 	 */
-	HttpResultActions andExpect(HttpResultMatcher matcher) throws Exception;
+	HttpResultActions andExpect(HttpResultMatcher<HttpResult> matcher) throws Exception;
 
 	/**
 	 * Perform a general action.
@@ -62,7 +62,7 @@ public interface HttpResultActions {
 	 * mockMvc.perform(get("/form")).andDo(print());
 	 * </pre>
 	 */
-	HttpResultActions andDo(HttpResultHandler handler) throws Exception;
+	HttpResultActions andDo(HttpResultHandler<HttpResult> handler) throws Exception;
 
 	/**
 	 * Return the result of the executed request for direct access to the results.

@@ -20,14 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.DispatcherType;
-import javax.servlet.FilterChain;
 import javax.servlet.ServletContext;
 
 import org.springframework.beans.Mergeable;
 import org.springframework.mock.web.MockFilterChain;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultHandler;
@@ -50,9 +48,9 @@ public class MockHttp {
 
 	private RequestBuilder defaultRequestBuilder;
 
-	private List<HttpResultMatcher> defaultResultMatchers = new ArrayList<>();
+	private List<HttpResultMatcher<HttpResult>> defaultResultMatchers = new ArrayList<>();
 
-	private List<HttpResultHandler> defaultResultHandlers = new ArrayList<>();
+	private List<HttpResultHandler<HttpResult>> defaultResultHandlers = new ArrayList<>();
 
 	MockHttp(MockFilterChain filterChain, ServletContext servletContext) {
 		this.filterChain = filterChain;
@@ -73,7 +71,7 @@ public class MockHttp {
 	 * Expectations to assert after every performed request.
 	 * @see org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder#alwaysExpect(ResultMatcher)
 	 */
-	void setGlobalResultMatchers(List<HttpResultMatcher> resultMatchers) {
+	void setGlobalResultMatchers(List<HttpResultMatcher<HttpResult>> resultMatchers) {
 		Assert.notNull(resultMatchers, "resultMatchers is required");
 		this.defaultResultMatchers = resultMatchers;
 	}
@@ -82,7 +80,7 @@ public class MockHttp {
 	 * General actions to apply after every performed request.
 	 * @see org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder#alwaysDo(ResultHandler)
 	 */
-	void setGlobalResultHandlers(List<HttpResultHandler> resultHandlers) {
+	void setGlobalResultHandlers(List<HttpResultHandler<HttpResult>> resultHandlers) {
 		Assert.notNull(resultHandlers, "resultHandlers is required");
 		this.defaultResultHandlers = resultHandlers;
 	}
@@ -136,13 +134,13 @@ public class MockHttp {
 		return new HttpResultActions() {
 
 			@Override
-			public HttpResultActions andExpect(HttpResultMatcher matcher) throws Exception {
+			public HttpResultActions andExpect(HttpResultMatcher<HttpResult> matcher) throws Exception {
 				matcher.match(httpResult);
 				return this;
 			}
 
 			@Override
-			public HttpResultActions andDo(HttpResultHandler handler) throws Exception {
+			public HttpResultActions andDo(HttpResultHandler<HttpResult> handler) throws Exception {
 				handler.handle(httpResult);
 				return this;
 			}
@@ -156,11 +154,11 @@ public class MockHttp {
 
 	private void applyDefaultResultActions(HttpResult mvcResult) throws Exception {
 
-		for (HttpResultMatcher matcher : this.defaultResultMatchers) {
+		for (HttpResultMatcher<HttpResult> matcher : this.defaultResultMatchers) {
 			matcher.match(mvcResult);
 		}
 
-		for (HttpResultHandler handler : this.defaultResultHandlers) {
+		for (HttpResultHandler<HttpResult> handler : this.defaultResultHandlers) {
 			handler.handle(mvcResult);
 		}
 	}
