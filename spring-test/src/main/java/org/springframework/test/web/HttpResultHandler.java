@@ -45,7 +45,7 @@ package org.springframework.test.web;
  * @since 3.2
  */
 @FunctionalInterface
-public interface HttpResultHandler {
+public interface HttpResultHandler<T extends HttpResult> {
 
 	/**
 	 * Perform an action on the given result.
@@ -53,6 +53,6 @@ public interface HttpResultHandler {
 	 * @param result the result of the executed request
 	 * @throws Exception if a failure occurs
 	 */
-	void handle(HttpResult result) throws Exception;
+	void handle(T result) throws Exception;
 
 }

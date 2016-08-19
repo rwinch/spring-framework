@@ -28,6 +28,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import static org.springframework.test.web.http.result.MockHttpResultMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.http.result.MockHttpResultHandlers.*;
 
 /**
  *
@@ -45,6 +46,7 @@ public class MockHttpTests {
 				.build();
 
 		mockHttp.perform(get("/"))
+			.andDo(print())
 			.andExpect(status().isOk())
 			.andExpect(forwardedUrl(null))
 			.andExpect(redirectedUrl(null))
