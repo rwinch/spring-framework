@@ -27,7 +27,7 @@ import org.junit.Test;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import static org.springframework.test.web.http.result.MockHttpResultMatchers.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.http.request.MockHttpRequestBuilders.*;
 import static org.springframework.test.web.http.result.MockHttpResultHandlers.*;
 
 /**
