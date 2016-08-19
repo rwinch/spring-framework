@@ -39,7 +39,6 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.FlashMap;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.support.RequestContextUtils;
 
 /**
  * Result handler that prints {@link MvcResult} details to a given output
@@ -82,10 +81,13 @@ public class PrintingHttpResultHandler<T extends HttpResult> implements HttpResu
 		this.printer.printHeading("MockHttpServletRequest");
 		printRequest(result.getRequest());
 
+		printResult(result);
 
 		this.printer.printHeading("MockHttpServletResponse");
 		printResponse(result.getResponse());
 	}
+	
+	protected void printResult(T result) throws Exception {}
 
 	/**
 	 * Print the request.
