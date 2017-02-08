@@ -1,5 +1,3 @@
-apply plugin: "propdeps-maven"
-
 install {
 	repositories.mavenInstaller {
 		customizePom(pom, project)
