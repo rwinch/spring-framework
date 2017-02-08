@@ -218,7 +218,7 @@ public class XpathExpectationsHelper {
 	public void assertBoolean(byte[] content, String encoding, boolean expectedValue) throws Exception {
 		Document document = parseXmlByteArray(content, encoding);
 		String actual = evaluateXpath(document, XPathConstants.STRING, String.class);
-		assertEquals("XPath " + this.expression, expectedValue, Boolean.parseBoolean(actual));
+		assertEquals("XPath " + this.expression + "='" + actual + "'", expectedValue, Boolean.parseBoolean(actual));
 	}
 
 }
